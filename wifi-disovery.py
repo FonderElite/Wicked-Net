@@ -7,14 +7,15 @@ init(autoreset=True)
 parser = argparse.ArgumentParser()
 parser.add_argument('-ip','--ipaddress',metavar='',help='IP-Address')
 parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
-parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
+parser.add_argument('-t','--timeout',metavar='',help='Timeout')
 
 args = parser.parse_args()
 stop_event = Event()
 class Extract(object):
-    def __init__(self,ip,drange):
+    def __init__(self,ip,drange,timeout):
          self.ip = ip
          self.drange = drange
+         self.timeout = timeout
     @staticmethod 
     def show_banner(s):
         for c in s + '\n':
@@ -24,9 +25,8 @@ class Extract(object):
         print('Made By FonderElite')
         time.sleep(0.5)
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Github:https://github.com/FonderElite')
-    @staticmethod
-    def count_down(time_set):
-        stop = abs(int(time_set))
+    def count_down(self):
+        stop = abs(int(self.timeout))
         while stop > 0:
             m, s = divmod(stop, 60)
             h, m = divmod(m, 60)
@@ -53,7 +53,7 @@ class Extract(object):
     def scan_devices():
         print('Scan Deviced')
 if __name__ == '__main__':
-    obj_class = Extract(args.ipaddress,args.devicerange)
+    obj_class = Extract(args.ipaddress,args.devicerange,args.timeout)
     banner = Process(target=obj_class.show_banner, args=('''
 __        ___      _            _       _   _      _   
 \ \      / (_) ___| | _____  __| |     | \ | | ___| |_     
@@ -71,5 +71,4 @@ __        ___      _            _       _   _      _
     countdown_obj.join()
     # We send a signal that the other thread should stop.
     process.terminate()
-
 
