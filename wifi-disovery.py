@@ -1,4 +1,5 @@
 import os,argparse,logging,time,sys,re
+from threading import Event
 from multiprocessing import Process
 import scapy.all as scapy
 from colorama import Fore,init
@@ -7,6 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-ip','--ipaddress',metavar='',help='IP-Address')
 parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
 args = parser.parse_args()
+stop_event = Event()
 class Extract(object):
     def __init__(self,ip,drange):
          self.ip = ip
@@ -46,3 +48,6 @@ if __name__ == '__main__':
     banner.start()
     banner.join()
     process.start()
+    process.join(timeout=5)
+    # We send a signal that the other thread should stop.
+    process.terminate()
