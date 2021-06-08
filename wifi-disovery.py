@@ -61,12 +61,12 @@ __        ___      _            _       _   _      _
   \ V  V / | | (__|   <  __/ (_| |_____| |\  |  __/ |_  
    \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|
         ''',))
-    countdown_obj = Process(target=obj_class.count_down,args=(int(args.timeout),))
+    countdown_obj = Process(target=obj_class.count_down)
     process = Process(target=obj_class.main)
     banner.start()
     banner.join()
     process.start()
-    process.join(timeout=args.timeout)
+    process.join(int(args.timeout))
     countdown_obj.start()
     countdown_obj.join()
     # We send a signal that the other thread should stop.
