@@ -1,2 +1,2 @@
-# Wicked-NetTracker
-Discover Wifi Networks near your and devices in your local network.
+# Wicked-Net
+Discover Devices in your Local Area Network.
