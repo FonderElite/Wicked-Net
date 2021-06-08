@@ -7,6 +7,8 @@ init(autoreset=True)
 parser = argparse.ArgumentParser()
 parser.add_argument('-ip','--ipaddress',metavar='',help='IP-Address')
 parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
+parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
+
 args = parser.parse_args()
 stop_event = Event()
 class Extract(object):
@@ -22,6 +24,16 @@ class Extract(object):
         print('Made By FonderElite')
         time.sleep(0.5)
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Github:https://github.com/FonderElite')
+    @staticmethod
+    def count_down(time_set):
+        stop = abs(int(time_set))
+        while stop > 0:
+            m, s = divmod(stop, 60)
+            h, m = divmod(m, 60)
+            timeleft = Fore.RED + "Time-out: " + Fore.WHITE + str(h).zfill(2) + ":" + str(m).zfill(2) + ":" + str(s).zfill(2)
+            print(f"\r", end=timeleft)
+            time.sleep(1)
+            stop -= 1
     def main(self):
         try:     
             ip_add_range_pattern = re.compile("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]*$")
@@ -49,11 +61,15 @@ __        ___      _            _       _   _      _
   \ V  V / | | (__|   <  __/ (_| |_____| |\  |  __/ |_  
    \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|
         ''',))
+    countdown_obj = Process(target=obj_class.count_down,args=(int(args.timeout),))
     process = Process(target=obj_class.main)
     banner.start()
     banner.join()
     process.start()
-    process.join(timeout=10)
+    process.join(timeout=args.timeout)
+    countdown_obj.start()
+    countdown_obj.join()
     # We send a signal that the other thread should stop.
     process.terminate()
+
 
