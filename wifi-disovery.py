@@ -28,9 +28,13 @@ class Extract(object):
                 if ip_add_range_pattern.search(ip_add_range_entered):
                     print(f"{ip_add_range_entered} is a valid ip address range")
                     break
-                arp_result = scapy.arping(ip_add_range_entered)
-        except OSError:
-            print(f'{Fore.WHITE} [{Fore.RED}-{Fore.WHITE}]Unknown Ip argument: {self.ip}')
+            arp_result = scapy.arping(ip_add_range_entered)
+            print(arp_result)
+        except Exception:
+           resp = Fore.WHITE + '[' + Fore.RED + '-' + Fore.WHITE + ']' 
+           aligned_string = "{:<10}".format(resp)
+           print(f'{aligned_string}Invalid Ip-address:{self.ip}')
+           print('Use -h for help')
 if __name__ == '__main__':
     obj_class = Extract(args.ipaddress,args.devicerange)
     banner = Process(target=obj_class.show_banner, args=('''
