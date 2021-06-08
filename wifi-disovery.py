@@ -1,4 +1,4 @@
-import os,argparse,logging,time,sys,re
+import os,argparse,logging,time,sys,re,subprocess
 from threading import Event
 from multiprocessing import Process
 import scapy.all as scapy
@@ -32,6 +32,7 @@ class Extract(object):
             h, m = divmod(m, 60)
             timeleft = Fore.RED + "Time-out: " + Fore.WHITE + str(h).zfill(2) + ":" + str(m).zfill(2) + ":" + str(s).zfill(2)
             print(f"\r", end=timeleft)
+            print("\n")
             time.sleep(1)
             stop -= 1
     def main(self):
@@ -51,7 +52,22 @@ class Extract(object):
            print('Use -h for help')
     @staticmethod
     def scan_devices():
-        print('Scan Deviced')
+        print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Devices' IP in your Local Area Network(LAN): ")
+        cmd = '''
+#!/bin/sh
+for i in {1..255}
+do (ping  -c 1 192.168.1.${i} | grep  "bytes from" &) 
+done
+        '''
+        file_open = open('/tmp/ping.sh','w')
+        file_write = file_open.write(cmd)
+        file_open.close()
+        if os.path.isfile('/tmp/ping.sh'):
+            os.system('sudo chmod 777 ping.sh')
+            time.sleep(1.5)
+            os.system('sudo bash ping.sh')
+        else:
+            pass
 if __name__ == '__main__':
     obj_class = Extract(args.ipaddress,args.devicerange,args.timeout)
     banner = Process(target=obj_class.show_banner, args=('''
@@ -62,13 +78,14 @@ __        ___      _            _       _   _      _
    \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|
         ''',))
     countdown_obj = Process(target=obj_class.count_down)
+    scan_obj = Process(target=obj_class.scan_devices)
     process = Process(target=obj_class.main)
     banner.start()
     banner.join()
     process.start()
-    process.join(int(args.timeout))
+    process.join(timeout=int(args.timeout))
     countdown_obj.start()
     countdown_obj.join()
     # We send a signal that the other thread should stop.
     process.terminate()
-
+    scan_obj.start()
