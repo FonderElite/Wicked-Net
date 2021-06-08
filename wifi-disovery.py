@@ -28,7 +28,7 @@ class Extract(object):
             while True:
                 ip_add_range_entered = self.ip + '/' + self.drange
                 if ip_add_range_pattern.search(ip_add_range_entered):
-                    print(f"{ip_add_range_entered} is a valid ip address range")
+                    print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Discovering LAN devices: {ip_add_range_entered}")
                     break
             arp_result = scapy.arping(ip_add_range_entered)
             print(arp_result)
@@ -44,18 +44,16 @@ if __name__ == '__main__':
     obj_class = Extract(args.ipaddress,args.devicerange)
     banner = Process(target=obj_class.show_banner, args=('''
 __        ___      _            _       _   _      _   
-\ \      / (_) ___| | _____  __| |     | \ | | ___| |_        .^--^.
- \ \ /\ / /| |/ __| |/ / _ \/ _` |_____|  \| |/ _ \ __|       |-_- |
-  \ V  V / | | (__|   <  __/ (_| |_____| |\  |  __/ |_        |:_/ |
-   \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|      //   \ \
-                                                            (|     | )
-                                                            /'\_   _/`\
-                                                            \___)=(___/
+\ \      / (_) ___| | _____  __| |     | \ | | ___| |_     
+ \ \ /\ / /| |/ __| |/ / _ \/ _` |_____|  \| |/ _ \ __|   
+  \ V  V / | | (__|   <  __/ (_| |_____| |\  |  __/ |_  
+   \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|
         ''',))
     process = Process(target=obj_class.main)
     banner.start()
     banner.join()
     process.start()
-    process.join(timeout=5)
+    process.join(timeout=10)
     # We send a signal that the other thread should stop.
     process.terminate()
+
