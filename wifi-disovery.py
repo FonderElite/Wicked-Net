@@ -23,7 +23,7 @@ class Extract(object):
         time.sleep(0.5)
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Github:https://github.com/FonderElite')
     def main(self):
-        try:
+        try:     
             ip_add_range_pattern = re.compile("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]*$")
             while True:
                 ip_add_range_entered = self.ip + '/' + self.drange
@@ -37,6 +37,9 @@ class Extract(object):
            aligned_string = "{:<10}".format(resp)
            print(f'{aligned_string}Invalid Ip-address:{self.ip}')
            print('Use -h for help')
+    @staticmethod
+    def scan_devices():
+        print('Scan Deviced')
 if __name__ == '__main__':
     obj_class = Extract(args.ipaddress,args.devicerange)
     banner = Process(target=obj_class.show_banner, args=('''
