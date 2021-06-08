@@ -3,6 +3,7 @@ from threading import Event
 from multiprocessing import Process
 import scapy.all as scapy
 from colorama import Fore,init
+from colorama import Back as bg
 init(autoreset=True)
 parser = argparse.ArgumentParser()
 parser.add_argument('-ip','--ipaddress',metavar='',help='IP-Address')
@@ -19,7 +20,7 @@ class Extract(object):
     @staticmethod 
     def show_banner(s):
         for c in s + '\n':
-            sys.stdout.write(Fore.GREEN + c)
+            sys.stdout.write(Fore.WHITE + c)
             sys.stdout.flush()
             time.sleep(2. / 100)
         print('Made By FonderElite')
@@ -71,12 +72,12 @@ done
 if __name__ == '__main__':
     obj_class = Extract(args.ipaddress,args.devicerange,args.timeout)
     banner = Process(target=obj_class.show_banner, args=('''
-__        ___      _            _       _   _      _   
-\ \      / (_) ___| | _____  __| |     | \ | | ___| |_     
- \ \ /\ / /| |/ __| |/ / _ \/ _` |_____|  \| |/ _ \ __|   
-  \ V  V / | | (__|   <  __/ (_| |_____| |\  |  __/ |_  
-   \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|
-        ''',))
+ _         ___      _            _       _   _      _       *  .  . *       *    .        .        .   *    ..
+ \ \      / (_) ___| | _____  __| |     | \ | | ___| |_      .   __      *        .        .      .        .            *
+  \ \ /\ / /| |/ __| |/ / _ \/ _` |_____|  \| |/ _ \ __| *   ___( o)> '   *     *.   *       .     *      *        *    .
+   \ V  V / | | (__|   <  __/ (_| |_____| |\  |  __/ |_      \ <_. )     *     *      ' *       * '     *  ' '      * '
+    \_/\_/  |_|\___|_|\_\___|\__,_|     |_| \_|\___|\__|  oo o ---'  
+''',))
     countdown_obj = Process(target=obj_class.count_down)
     scan_obj = Process(target=obj_class.scan_devices)
     process = Process(target=obj_class.main)
