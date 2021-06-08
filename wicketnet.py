@@ -23,7 +23,7 @@ class Extract(object):
             sys.stdout.write(bg.BLACK + Fore.WHITE + c)
             sys.stdout.flush()
             time.sleep(2. / 100)
-        print('Made By FonderElite')
+        print('->Made By FonderElite<-')
         time.sleep(0.5)
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Github:https://github.com/FonderElite')
     def count_down(self):
@@ -99,3 +99,4 @@ if __name__ == '__main__':
         print("Done in: {}".format(time.time()-t) + 's')
     except Exception as Err:
         print(Err)
+                    
