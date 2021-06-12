@@ -66,9 +66,9 @@ done
         file_write = file_open.write(cmd)
         file_open.close()
         if os.path.isfile('/tmp/ping.sh'):
-            os.system('sudo chmod 777 ping.sh')
+            os.system('sudo chmod 777 /tmp/ping.sh')
             time.sleep(1.5)
-            os.system('sudo bash ping.sh')
+            os.system('sudo bash /tmp/ping.sh')
         else:
             pass
 if __name__ == '__main__':
