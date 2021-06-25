@@ -8,7 +8,7 @@ from wifi import Cell, Scheme
 init(autoreset=True)
 parser = argparse.ArgumentParser()
 parser.add_argument('-ip','--ipaddress',metavar='',help='Local Ip')
-parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
+parser.add_argument('-s','--subnetrange',metavar='',help='Subnet Range')
 parser.add_argument('-t','--timeout',metavar='',help='Timeout')
 parser.add_argument('-i','--interface',metavar='',help='Interface to discover Wireless AP')
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     try:
         q = queue.Queue()
         t = time.time()
-        obj_class = Extract(args.ipaddress,args.devicerange,args.timeout,args.interface)
+        obj_class = Extract(args.ipaddress,args.subnetrange,args.timeout,args.interface)
         banner = Process(target=obj_class.show_banner, args=('''
  _         ___      _            _       _   _      _       *  .  . *       *    .        .        .   *    ..
  \ \      / (_) ___| | _____  __| |     | \ | | ___| |_      .   __      *        .        .      .        .            *
@@ -119,4 +119,3 @@ if __name__ == '__main__':
         print("Done in: {}".format(time.time()-t) + 's')
     except Exception as Err:
         print(Err)
-                    
