@@ -82,7 +82,7 @@ done
             for wifi in wlan0:
                 print(str(wifi).replace("Cell",""))
             print("Discovered a total of {amount} wifi networks.".format(amount=len(wlan0)))
-            print('More Detailed Results: ')
+            print(f'\nMore Detailed Results: ')
             time.sleep(1.5)
             os.system('nmcli device wifi list')
         except Exception as Err:
