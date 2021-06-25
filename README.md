@@ -11,16 +11,15 @@ sudo pip3 install wifi
 ```
 ## Usage:
 ```bash
-sudo python3 net.py -h                                 
-usage: net.py [-h] [-ip] [-r] [-t] [-i]
+ sudo python3 net2.py -h                                  
+usage: net2.py [-h] [-ip] [-s] [-t] [-i]
 
 optional arguments:
   -h, --help           show this help message and exit
   -ip , --ipaddress    Local Ip
-  -r , --devicerange   Range of Devices
+  -s , --subnetrange   Range of Devices
   -t , --timeout       Timeout
   -i , --interface     Interface to discover Wireless AP
-
 ```
 ## Bugs?
 >Issues are open for your concerns and pull requests are so, if you want to contribute to this project.
