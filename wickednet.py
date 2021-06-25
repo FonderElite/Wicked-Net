@@ -4,19 +4,22 @@ from multiprocessing import Process
 import scapy.all as scapy
 from colorama import Fore,init
 from colorama import Back as bg
+from wifi import Cell, Scheme
 init(autoreset=True)
 parser = argparse.ArgumentParser()
-parser.add_argument('-ip','--ipaddress',metavar='',help='IP-Address')
+parser.add_argument('-ip','--ipaddress',metavar='',help='Local Ip')
 parser.add_argument('-r','--devicerange',metavar='',help='Range of Devices')
 parser.add_argument('-t','--timeout',metavar='',help='Timeout')
+parser.add_argument('-i','--interface',metavar='',help='Interface to discover Wireless AP')
 
 args = parser.parse_args()
 stop_event = Event()
 class Extract(object):
-    def __init__(self,ip,drange,timeout):
+    def __init__(self,ip,drange,timeout,iface):
          self.ip = ip
          self.drange = drange
          self.timeout = timeout
+         self.iface = iface
     @staticmethod 
     def show_banner(s):
         for c in s + '\n':
@@ -71,11 +74,22 @@ done
             os.system('sudo bash /tmp/ping.sh')
         else:
             pass
+    def wlan_discovery(self):
+        try:
+            wlan0 = list(Cell.all(self.iface))
+            print(f"\n{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Discovering Wireless AP in your area...") 
+            time.sleep(1.5)
+            for wifi in wlan0:
+                print(str(wifi).replace("Cell",""))
+            print("Discovered a total of {amount} wifi networks.".format(amount=len(wlan0)))
+        except Exception as Err:
+            print(Err)
+
 if __name__ == '__main__':
     try:
         q = queue.Queue()
         t = time.time()
-        obj_class = Extract(args.ipaddress,args.devicerange,args.timeout)
+        obj_class = Extract(args.ipaddress,args.devicerange,args.timeout,args.interface)
         banner = Process(target=obj_class.show_banner, args=('''
  _         ___      _            _       _   _      _       *  .  . *       *    .        .        .   *    ..
  \ \      / (_) ___| | _____  __| |     | \ | | ___| |_      .   __      *        .        .      .        .            *
@@ -86,6 +100,7 @@ if __name__ == '__main__':
         countdown_obj = Process(target=obj_class.count_down)
         scan_obj = Process(target=obj_class.scan_devices)
         process = Process(target=obj_class.main)
+        wlan_scan = Process(target=obj_class.wlan_discovery)
         banner.start()
         banner.join()
         process.start()
@@ -96,6 +111,8 @@ if __name__ == '__main__':
         # We send a signal that the other thread should stop.
         scan_obj.start()
         scan_obj.join()
+        wlan_scan.start()
+        wlan_scan.join()
         print("Done in: {}".format(time.time()-t) + 's')
     except Exception as Err:
         print(Err)
