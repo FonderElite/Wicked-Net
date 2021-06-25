@@ -25,6 +25,9 @@ optional arguments:
 ## Bugs?
 >Issues are open for your concerns and pull requests are so, if you want to contribute to this project.
 
+## Disclaimer:
+This tool is for educational purposes only, please do not use this tool for any illegal actions, any aunauthorized access could result to a felony, which will be based on offense against the confidentiality, integrity, and availability of com puter data and system.
+
 ## Feature to be added:
 - Deauthenticate Users
 
