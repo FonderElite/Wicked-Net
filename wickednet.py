@@ -76,7 +76,8 @@ done
             pass
     def wlan_discovery(self):
         try:
-            wlan0 = list(Cell.all(self.iface))
+            wlan_discovery = lambda wlan : list(Cell.all(wlan))
+            wlan0 = wlan_discovery(self.iface)
             print(f"\n{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Discovering Wireless AP in your area...") 
             time.sleep(1.5)
             for wifi in wlan0:
