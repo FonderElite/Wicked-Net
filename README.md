@@ -11,8 +11,8 @@ sudo pip3 install wifi
 ```
 ## Usage:
 ```bash
- sudo python3 net2.py -h                                  
-usage: net2.py [-h] [-ip] [-s] [-t] [-i]
+ sudo python3 wickednet.py -h                                  
+usage: wickednet.py [-h] [-ip] [-s] [-t] [-i]
 
 optional arguments:
   -h, --help           show this help message and exit
