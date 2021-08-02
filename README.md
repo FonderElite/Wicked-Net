@@ -20,6 +20,9 @@ optional arguments:
   -s , --subnetrange   Range of Devices
   -t , --timeout       Timeout
   -i , --interface     Interface to discover Wireless AP
+____________________________________________________________________
+┌──(kali㉿kali)-[~/Wicked-Net]
+└─$ sudo python3 wickednet.py -ip 192.168.1.100 -s 27 -t 1 -i wlan0
 ```
 ## Bugs?
 >Issues are open for your concerns and pull requests are so, if you want to contribute to this project.
