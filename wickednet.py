@@ -25,7 +25,7 @@ class Extract(object):
         for c in s + '\n':
             sys.stdout.write(bg.BLACK + Fore.WHITE + c)
             sys.stdout.flush()
-            time.sleep(2. / 100)
+            time.sleep(1. / 100)
         print('->Made By FonderElite<-')
         time.sleep(0.5)
         print(f'{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Github:https://github.com/FonderElite')
@@ -59,17 +59,30 @@ class Extract(object):
     @staticmethod
     def scan_devices():
         print(f"\n{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]Devices' IP in your Local Area Network(LAN): ")
-        cmd = '''
+        arr = []
+        localip = os.popen("ifconfig wlan0 | grep -w 'inet'").read()
+        if os.path.isfile("local-ip.txt") == False:
+            ip_file = open("local-ip.txt","w")
+            ip_file_w = ip_file.write(localip)
+        elif os.path.isfile("local-ip.txt") == True:
+            read_ip_file = open("local-ip.txt","r")
+            read_ips = read_ip_file.read()
+            ips = re.findall( r'[0-9]+(?:\.[0-9]+){3}',str(read_ips))
+            for i in ips[0]:
+                arr.append(i)
+            arr[10],arr[11],arr[12] = '','',''
+            new_local_ip_format = ''.join(arr)
+        cmd = f'''
 #!/bin/sh
-for i in {1..255}
-do (ping  -c 1 192.168.1.${i} | grep  "bytes from" &) 
+for i in {{1..255}}
+do (ping  -c 1  {new_local_ip_format}$i | grep  "bytes from" &) 
 done
         '''
-        file_open = open('/tmp/ping.sh','w')
+        file_open = open('/tmp/ping_device.sh','w')
         file_write = file_open.write(cmd)
         file_open.close()
         if os.path.isfile('/tmp/ping.sh'):
-            os.system('sudo chmod 777 /tmp/ping.sh')
+            os.system('sudo chmod 777 /tmp/ping_device.sh')
             time.sleep(1.5)
             os.system('sudo bash /tmp/ping.sh')
         else:
