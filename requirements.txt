@@ -1,1 +1,3 @@
 wifi
+scapy
+colorama
